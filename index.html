@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+        background: linear-gradient(to right, #f00, #0f0, #00f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    body {
+        width: 100vw;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .container {
+        padding-top: 20%;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+        overflow: hidden;
+    }
+
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 50%;
+    }
+
+    .header img {
+        width: 20%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        opacity: 0.8;
+        box-shadow: black 0px 0px 10px;
+        transition: opacity 1s ease-in-out;
+    }
+
+    .header img:hover {
+        opacity: 1;
+        box-shadow: black 0px 0px 20px;
+    }
+
+
+    .middle {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .gap {
+        margin: 2rem 0;
+        color: white;
+    }
+
+    .gap:first-child {
+        text-shadow: red 1px 1px 0px, yellow 2px 2px 0px, green 3px 3px 0px, blue 4px 4px 0px, indigo 5px 5px 0px, violet 6px 6px 0px;
+        transition: text-shadow 1s ease-in-out;
+    }
+
+    .gap:first-child:hover {
+        text-shadow: red 1px 1px 0px, yellow 2px 2px 0px, green 3px 3px 0px, blue 4px 4px 0px, indigo 5px 5px 0px, violet 6px 6px 0px, red 7px 7px 0px, yellow 8px 8px 0px, green 9px 9px 0px, blue 10px 10px 0px, indigo 11px 11px 0px, violet 12px 12px 0px;
+    }
+
+    .footer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2rem 0;
+        font-size: large;
+        gap: 1rem;
+    }
+
+    li {
+        font-size: medium;
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    button {
+        width: 90px;
+        height: 30px;
+        font-size: larger;
+    }
+
+    textarea::placeholder {
+        font-size: larger;
+    }
+
+    textarea {
+        text-align: center;
+        font-size: medium;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="./engineer.jpg" alt="">
+        </div>
+        <div class="middle">
+            <h1 class="gap">Hi,my name is rajesh</h1>
+            <h2 class="gap" id="animator">Facts about me </h2>
+            <ul>
+                <li>I am a full stack web developer</li>
+                <li>I am proficient in python</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <div class="top">
+                <div>Please connect with me on <a href="https://www.linkedin.com/in/rajesh-kanugu-aba8a3254/">LinkedIn
+                        here.</a></div>
+                <div>My Github Hub <a href="https://github.com/Alexanderwar">Click here.</a></div>
+                <div>My LeetCode Profile <a href="https://leetcode.com/rajesh_kanugu/">Click here</a></div>
+            </div>
+            <div class="bottom">
+                <textarea name="" id="" cols="30" rows="10"
+                    placeholder="Enter the details you want to send to me"></textarea>
+                <button id="press">submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+
+<script>
+    (function () {
+        // https://dashboard.emailjs.com/admin/account
+        emailjs.init('8Ua2-T5Xe06rJTLxK');
+    })();
+    let i = 0;
+    let intervalId;
+
+    const animator = document.getElementById("animator");
+
+    animator.addEventListener("mouseover", () => {
+        const data = ["Facts about me ", "Facts about me .", "Facts about me . .", "Facts about me . . .", "Facts about me . . . .", "Facts about me . . . . ."];
+        const length = data.length;
+
+        intervalId = setInterval(() => {
+            animator.innerHTML = data[i % length];
+            i++;
+        }, 1000);
+    });
+
+    animator.addEventListener("mouseout", () => {
+        clearInterval(intervalId);
+    });
+
+    document.getElementById("press").addEventListener("click", () => {
+        const data = document.querySelector("textarea").value;
+        console.log(data)
+        emailjs.send("service_h006wsq", "template_y66qu7n", {
+            message: data,
+        })
+            .then(function () {
+                console.log('SUCCESS!');
+            }, function (error) {
+                console.log('FAILED...', error);
+            });
+        alert("email send successfully");
+    }
+    );
+
+</script>
+
+</html>
